@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meridian Realty × GuidexCRM — onboarding portal</title>
+<meta name="description" content="The single link a client gets after signing: live progress, phased plan, working forms, documents and milestone billing. All data fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#151a21; --ink-soft:#3d4552; --paper:#eef1f3; --paper-raised:#fff;
+    --line:#d7dce1; --brass:#c89b3c; --brass-deep:#a87f28; --teal:#2f6f68; --teal-bg:#e4efee;
+    --coral:#c1503f; --coral-bg:#f7e9e6; --amber-bg:#faf1dd; --radius:10px;
+    --shadow:0 1px 2px rgba(21,26,33,.06), 0 8px 24px -12px rgba(21,26,33,.18);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',system-ui,sans-serif; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+  h1,h2,h3{font-family:'Fraunces',serif; margin:0; letter-spacing:-.01em;}
+  a{color:inherit;} button{font-family:inherit;}
+
+  .topbar{position:sticky; top:0; z-index:50; background:rgba(238,241,243,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .topbar-inner{max-width:1180px; margin:0 auto; padding:12px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:9px; font-weight:600; text-decoration:none; font-size:14.5px;}
+  .brand-mark{width:24px; height:24px; border-radius:6px; background:linear-gradient(135deg,var(--brass),var(--brass-deep)); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Fraunces',serif; font-weight:700; font-size:13px;}
+  .btn-tour{border:1px solid var(--brass-deep); background:var(--amber-bg); color:var(--brass-deep); padding:7px 13px; border-radius:999px; font-size:12.5px; font-weight:600; cursor:pointer;}
+  .btn-tour:hover{background:var(--brass); color:#fff;}
+
+  .hero{max-width:1180px; margin:0 auto; padding:36px 24px 8px;}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--brass-deep); background:var(--amber-bg); border:1px solid #e6d29c; padding:5px 10px; border-radius:999px; margin-bottom:14px;}
+  .hero h1{font-size:clamp(24px,3.2vw,34px); font-weight:600; line-height:1.15;}
+  .hero p{color:var(--ink-soft); font-size:14.5px; max-width:70ch; margin-top:9px; line-height:1.6;}
+
+  .shell{max-width:1180px; margin:0 auto; padding:20px 24px 60px; display:grid; grid-template-columns:200px 1fr; gap:22px;}
+  .tabs{position:sticky; top:70px; align-self:start; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:8px; box-shadow:var(--shadow);}
+  .tabbtn{display:flex; align-items:center; gap:9px; width:100%; text-align:left; border:none; background:transparent; padding:9px 10px; border-radius:7px; font-size:13.5px; color:var(--ink-soft); cursor:pointer; margin-bottom:2px;}
+  .tabbtn .ic{width:16px; text-align:center; font-size:13px;}
+  .tabbtn:hover{background:var(--paper);}
+  .tabbtn.active{background:var(--ink); color:#fff;}
+  .tabbtn .badge{margin-left:auto; background:var(--coral); color:#fff; font-size:10px; padding:1px 6px; border-radius:999px; font-family:'IBM Plex Mono',monospace;}
+
+  .panel{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; margin-bottom:18px;}
+  .panel-head{margin-bottom:18px;}
+  .panel-head h2{font-size:20px; font-weight:600;}
+  .panel-head p{font-size:13px; color:var(--ink-soft); margin-top:4px; max-width:64ch;}
+
+  /* overview */
+  .ov-top{display:grid; grid-template-columns:180px 1fr; gap:28px; align-items:center;}
+  .ring-wrap{position:relative; width:170px; height:170px;}
+  .ring-num{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .ring-num .p{font-family:'Fraunces',serif; font-size:34px; font-weight:600;}
+  .ring-num .l{font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+  .ov-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  .ov-stat{border:1px solid var(--line); border-radius:9px; padding:14px 16px; background:var(--paper);}
+  .ov-stat .n{font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--brass-deep);}
+  .ov-stat .l{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+  .phase-strip{display:flex; gap:8px; margin-top:22px;}
+  .phase-chip{flex:1; border-radius:8px; padding:10px 12px; font-size:12px; border:1px solid var(--line); background:var(--paper);}
+  .phase-chip.done{background:var(--teal-bg); border-color:var(--teal); color:var(--teal);}
+  .phase-chip.active{background:var(--amber-bg); border-color:var(--brass-deep); color:var(--brass-deep);}
+  .phase-chip.locked{opacity:.5;}
+  .phase-chip .pn{font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase;}
+  .phase-chip .pl{font-weight:600; margin-top:2px;}
+
+  /* plan / steps */
+  .phase-block{border:1px solid var(--line); border-radius:10px; margin-bottom:14px; overflow:hidden;}
+  .phase-block.locked{opacity:.55;}
+  .phase-block-head{display:flex; justify-content:space-between; align-items:center; padding:13px 16px; background:var(--paper); border-bottom:1px solid var(--line);}
+  .phase-block-head h4{font-size:14.5px; font-weight:600; font-family:'IBM Plex Sans',sans-serif;}
+  .phase-block-head .pct{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-soft);}
+  .step-row{display:flex; align-items:center; gap:12px; padding:11px 16px; border-bottom:1px solid #f0f2f4;}
+  .step-row:last-child{border-bottom:none;}
+  .step-check{width:20px; height:20px; border-radius:50%; border:2px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0;}
+  .step-check.done{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .step-check.pending{border-color:var(--brass-deep); color:var(--brass-deep);}
+  .step-name{flex:1; font-size:13px;}
+  .step-tag{font-size:10px; text-transform:uppercase; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace; padding:2px 7px; border-radius:999px;}
+  .step-tag.task{background:var(--paper); color:var(--ink-soft);}
+  .step-tag.client-form{background:var(--amber-bg); color:var(--brass-deep);}
+  .step-tag.approval{background:var(--coral-bg); color:var(--coral);}
+  .step-tag.done-tag{background:var(--teal-bg); color:var(--teal);}
+
+  /* todo */
+  .todo-item{display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-radius:9px; padding:13px 15px; margin-bottom:10px;}
+  .todo-item .ti-body{flex:1;}
+  .todo-item .ti-title{font-size:13.5px; font-weight:600;}
+  .todo-item .ti-sub{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .btn-go{border:1px solid var(--ink); background:var(--ink); color:#fff; padding:7px 14px; border-radius:7px; font-size:12.5px; cursor:pointer; font-weight:600; white-space:nowrap;}
+  .all-clear{text-align:center; padding:40px 10px; color:var(--ink-soft); font-size:13.5px;}
+
+  /* forms */
+  .form-card{border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:16px;}
+  .form-card.complete{background:var(--teal-bg); border-color:var(--teal);}
+  .form-card h4{font-size:15px; margin-bottom:4px;}
+  .form-card .fsub{font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;}
+  .frow{margin-bottom:12px;}
+  .frow label{display:block; font-size:12px; font-weight:600; margin-bottom:5px;}
+  .frow input[type=text], .frow input[type=email], .frow select{
+    width:100%; border:1px solid var(--line); border-radius:7px; padding:9px 10px; font-size:13.5px; font-family:inherit; background:var(--paper-raised);
+  }
+  .frow input.err{border-color:var(--coral);}
+  .frow .errmsg{color:var(--coral); font-size:11.5px; margin-top:4px; display:none;}
+  .frow .errmsg.show{display:block;}
+  .checks{display:flex; flex-wrap:wrap; gap:8px;}
+  .chkpill{border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-size:12.5px; cursor:pointer; user-select:none;}
+  .chkpill.on{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .btn-submit{border:none; background:var(--brass-deep); color:#fff; padding:9px 18px; border-radius:7px; font-size:13px; cursor:pointer; font-weight:600; margin-top:6px;}
+  .btn-submit:disabled{opacity:.5; cursor:not-allowed;}
+  .form-done-badge{font-size:12px; color:var(--teal); font-weight:600; display:flex; align-items:center; gap:6px;}
+
+  /* documents */
+  .doc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
+  .doc-card{border:1px solid var(--line); border-radius:9px; padding:15px; background:var(--paper);}
+  .doc-card.locked{opacity:.5;}
+  .doc-card .dic{font-size:20px;}
+  .doc-card .dn{font-size:13px; font-weight:600; margin-top:8px;}
+  .doc-card .dd{font-size:11.5px; color:var(--ink-soft); margin:4px 0 12px;}
+  .btn-dl{border:1px solid var(--ink); background:transparent; color:var(--ink); padding:6px 12px; border-radius:7px; font-size:12px; cursor:pointer; font-weight:600;}
+  .btn-dl:disabled{opacity:.4; cursor:not-allowed; border-color:var(--line); color:var(--ink-soft);}
+  .btn-cal{border:1px solid var(--teal); background:var(--teal-bg); color:var(--teal); padding:6px 12px; border-radius:7px; font-size:12px; cursor:pointer; font-weight:600;}
+
+  /* billing */
+  .invoice{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line); border-radius:9px; padding:16px 18px; margin-bottom:10px;}
+  .invoice .in-l .it{font-size:13.5px; font-weight:600;}
+  .invoice .in-l .is{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .invoice .in-r{text-align:right; display:flex; align-items:center; gap:12px;}
+  .invoice .amt{font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600;}
+  .status-pill{font-size:11px; padding:4px 10px; border-radius:999px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase;}
+  .status-pill.paid{background:var(--teal-bg); color:var(--teal);}
+  .status-pill.due{background:var(--amber-bg); color:var(--brass-deep);}
+  .status-pill.locked{background:var(--paper); color:var(--ink-soft);}
+  .btn-pay{border:none; background:var(--brass-deep); color:#fff; padding:7px 14px; border-radius:7px; font-size:12px; cursor:pointer; font-weight:600;}
+
+  .honest{max-width:1180px; margin:0 auto; padding:10px 24px 50px;}
+  .honest .box{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:28px; max-width:820px;}
+  .honest h3{font-size:19px; margin-bottom:10px;}
+  .honest p{color:var(--ink-soft); font-size:14px; line-height:1.7; margin:0 0 10px;}
+  .honest a{color:var(--brass-deep); text-decoration:underline;}
+
+  footer{border-top:1px solid var(--line); padding:22px 0 40px;}
+  footer .in2{max-width:1180px; margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-soft);}
+  footer a{text-decoration:none; color:var(--ink-soft);}
+
+  #tour-overlay{position:fixed; inset:0; background:rgba(21,26,33,.55); z-index:200; display:none;}
+  #tour-card{position:fixed; z-index:201; background:#fff; border-radius:12px; padding:16px 18px; max-width:270px; box-shadow:0 20px 50px -12px rgba(0,0,0,.4); display:none; font-size:13px; line-height:1.5;}
+  #tour-card .tt{font-family:'Fraunces',serif; font-weight:600; font-size:14.5px; margin-bottom:5px;}
+  #tour-card .tb{display:flex; justify-content:space-between; align-items:center; margin-top:12px;}
+  #tour-card .step-n{font-size:10.5px; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;}
+  #tour-card button{border:none; background:var(--ink); color:#fff; padding:6px 13px; border-radius:999px; font-size:12px; cursor:pointer; font-weight:600;}
+  #tour-card button.skip{background:transparent; color:var(--ink-soft);}
+  .tour-highlight{position:relative; z-index:202; box-shadow:0 0 0 4px var(--brass), 0 0 0 9999px rgba(21,26,33,.55); border-radius:8px;}
+
+  @media (max-width:880px){
+    .shell{grid-template-columns:1fr;}
+    .tabs{position:static; display:flex; overflow-x:auto; gap:4px;}
+    .tabbtn{white-space:nowrap; flex-shrink:0;}
+    .ov-top{grid-template-columns:1fr; text-align:center;}
+    .ring-wrap{margin:0 auto;}
+    .ov-stats{grid-template-columns:1fr;}
+    .phase-strip{flex-wrap:wrap;}
+    .phase-chip{flex:1 1 45%;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark">G</span> GuidexCRM · Sample Work</a>
+    <button class="btn-tour" id="startTour">▶ Guided tour</button>
+  </div>
+</div>
+
+<div class="hero">
+  <span class="eyebrow">● Piece 3 of 3 · client experience · fictional data</span>
+  <h1>The one link Meridian Realty gets after signing</h1>
+  <p>Every client on a build gets a single portal: what's done, what's next, what needs their
+    signature, and what they owe — always current, never a status-update email. Fill in the
+    forms below, approve a milestone, and watch the plan, the documents and the invoices react.</p>
+</div>
+
+<div class="shell">
+  <div class="tabs" id="tabs"></div>
+  <div class="main" id="main"></div>
+</div>
+
+<div class="honest">
+  <div class="box">
+    <h3>The honest bit</h3>
+    <p>Meridian Realty Group is the same fictional brokerage client from the <a href="../hubspot-verticals/index.html">CRM
+      showcase</a> — this is the portal it would have received while that build was underway.
+      Every name, date, dollar figure and document is invented for this sample. The download
+      buttons and calendar links produce real files generated in your browser on the spot; the
+      "pay now" button simulates a payment rather than charging anything.</p>
+    <p>Part of a three-piece sample set: a <a href="../crm-migration/index.html">spreadsheet-to-CRM migration</a>,
+      a <a href="../hubspot-verticals/index.html">multi-industry CRM build</a>, and this onboarding portal.</p>
+  </div>
+</div>
+
+<footer><div class="in2">
+  <span>GuidexCRM Solutions · sample work · all data fictional</span>
+  <span><a href="../index.html">← Back to the three pieces</a></span>
+</div></footer>
+
+<div id="tour-overlay"></div>
+<div id="tour-card">
+  <div class="step-n" id="tourStepN"></div>
+  <div class="tt" id="tourTitle"></div>
+  <div id="tourBody"></div>
+  <div class="tb"><button class="skip" id="tourSkip">Skip</button><button id="tourNext">Next</button></div>
+</div>
+
+<script>
+/* =========================================================
+   DATA — 5 phases, 17 steps, fictional
+   ========================================================= */
+const PHASES = [
+  { id:0, label:"Discovery & Scoping", steps:[
+      {id:"1.1", label:"Kickoff call completed", type:"task", done:false},
+      {id:"1.2", label:"Workflow audit reviewed with team", type:"client-form", done:true},
+      {id:"1.3", label:"Scope sign-off", type:"approval", done:true},
+  ]},
+  { id:1, label:"Data Migration", steps:[
+      {id:"2.1", label:"Legacy lead data exported", type:"task", done:false},
+      {id:"2.2", label:"Dedupe & cleanup pass complete", type:"task", done:false},
+      {id:"2.3", label:"Data access authorization", type:"client-form", done:false, formId:"dataAccess"},
+      {id:"2.4", label:"Migration QA review approved", type:"approval", done:false},
+  ]},
+  { id:2, label:"CRM Build", steps:[
+      {id:"3.1", label:"Pipeline & properties configured", type:"task", done:false},
+      {id:"3.2", label:"Automation workflows built", type:"task", done:false},
+      {id:"3.3", label:"Brand & territory details submitted", type:"client-form", done:false, formId:"brandDetails"},
+      {id:"3.4", label:"Internal QA passed", type:"task", done:false},
+  ]},
+  { id:3, label:"Training & Rollout", steps:[
+      {id:"4.1", label:"Admin training session held", type:"task", done:false, meeting:{title:"Meridian Realty — Admin Training", date:"2026-09-02T16:00:00"}},
+      {id:"4.2", label:"Agent training session held", type:"task", done:false, meeting:{title:"Meridian Realty — Agent Training", date:"2026-09-04T16:00:00"}},
+      {id:"4.3", label:"SOP guide delivered", type:"task", done:false},
+  ]},
+  { id:4, label:"Go-Live & Handoff", steps:[
+      {id:"5.1", label:"Go-live checklist complete", type:"task", done:false},
+      {id:"5.2", label:"30-day support window scheduled", type:"task", done:false},
+      {id:"5.3", label:"Final handoff sign-off", type:"approval", done:false},
+  ]},
+];
+
+const DOCS = [
+  {id:"d1", name:"Discovery Scope Summary", desc:"Kickoff notes & agreed scope", phase:0, ic:"📋"},
+  {id:"d2", name:"Data Migration QA Report", desc:"Row counts, dedupe results", phase:1, ic:"🧹"},
+  {id:"d3", name:"CRM Configuration Overview", desc:"Pipelines, properties, automations", phase:2, ic:"⚙️"},
+  {id:"d4", name:"SOP & Training Guide", desc:"Day-to-day playbook for agents", phase:3, ic:"📘"},
+  {id:"d5", name:"Go-Live Handoff Packet", desc:"Final config export & support plan", phase:4, ic:"🤝"},
+];
+
+const INVOICES = [
+  {id:"inv1", label:"Deposit — contract signing", amount:2400, unlockPhase:-1, paid:true},
+  {id:"inv2", label:"Milestone — CRM build complete", amount:3600, unlockPhase:2, paid:false},
+  {id:"inv3", label:"Final — go-live", amount:1800, unlockPhase:4, paid:false},
+];
+
+const TABS = [
+  {id:"overview", label:"Overview", ic:"◆"},
+  {id:"plan", label:"Plan", ic:"☰"},
+  {id:"todo", label:"To-Do", ic:"✓"},
+  {id:"forms", label:"Forms", ic:"✎"},
+  {id:"documents", label:"Documents", ic:"📄"},
+  {id:"billing", label:"Billing", ic:"$"},
+];
+
+let state = { tab:"overview" };
+const forms = {
+  dataAccess:{ contact:"", email:"", currentCrm:"", consent:false },
+  brandDetails:{ color:"#a87f28", territories:new Set(), domain:"" },
+};
+
+/* =========================================================
+   DERIVED STATE
+   ========================================================= */
+function allSteps(){ return PHASES.flatMap(p=>p.steps); }
+function phaseComplete(i){ return PHASES[i].steps.every(s=>s.done); }
+function phaseLocked(i){ return i>0 && !phaseComplete(i-1); }
+function overallPct(){
+  const s = allSteps();
+  return Math.round(s.filter(x=>x.done).length / s.length * 100);
+}
+function refreshAutoTasks(){
+  PHASES.forEach((p,i)=>{
+    if(!phaseLocked(i)){
+      p.steps.forEach(s=>{ if(s.type==="task") s.done = true; });
+    }
+  });
+}
+function docUnlocked(doc){ return phaseComplete(doc.phase); }
+
+/* =========================================================
+   RENDER — chrome
+   ========================================================= */
+function renderTabs(){
+  const t = document.getElementById("tabs");
+  const todoCount = allSteps().filter(s=> !s.done && s.type!=="task" && !phaseLockedForStep(s)).length;
+  t.innerHTML = TABS.map(tb=>{
+    const badge = tb.id==="todo" && todoCount>0 ? `<span class="badge">${todoCount}</span>` : "";
+    return `<button class="tabbtn ${state.tab===tb.id?'active':''}" data-t="${tb.id}"><span class="ic">${tb.ic}</span>${tb.label}${badge}</button>`;
+  }).join("");
+  t.querySelectorAll(".tabbtn").forEach(b=> b.addEventListener("click", ()=>{ state.tab=b.dataset.t; render(); }));
+}
+function phaseIndexOfStep(step){ return PHASES.findIndex(p=> p.steps.includes(step)); }
+function phaseLockedForStep(step){ return phaseLocked(phaseIndexOfStep(step)); }
+
+/* =========================================================
+   VIEWS
+   ========================================================= */
+function ringSvg(pct){
+  const r=70, c=2*Math.PI*r, off = c*(1-pct/100);
+  return `<svg width="170" height="170" viewBox="0 0 170 170">
+    <circle cx="85" cy="85" r="${r}" fill="none" stroke="var(--line)" stroke-width="14"/>
+    <circle cx="85" cy="85" r="${r}" fill="none" stroke="var(--brass-deep)" stroke-width="14"
+      stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}"
+      transform="rotate(-90 85 85)" style="transition:stroke-dashoffset .6s ease;"/>
+  </svg>`;
+}
+
+function viewOverview(){
+  const pct = overallPct();
+  const doneSteps = allSteps().filter(s=>s.done).length;
+  const nextGate = PHASES.find((p,i)=> !phaseComplete(i));
+  return `
+    <div class="panel" id="sec-overview">
+      <div class="panel-head"><div><h2>Project overview</h2><p>Meridian Realty Group × GuidexCRM — CRM build &amp; onboarding.</p></div></div>
+      <div class="ov-top">
+        <div class="ring-wrap">${ringSvg(pct)}<div class="ring-num"><div class="p">${pct}%</div><div class="l">complete</div></div></div>
+        <div class="ov-stats">
+          <div class="ov-stat"><div class="n">${doneSteps} / ${allSteps().length}</div><div class="l">steps complete</div></div>
+          <div class="ov-stat"><div class="n">${PHASES.filter((p,i)=>phaseComplete(i)).length} / ${PHASES.length}</div><div class="l">phases complete</div></div>
+          <div class="ov-stat"><div class="n">${nextGate ? nextGate.label : "None"}</div><div class="l">current phase</div></div>
+        </div>
+      </div>
+      <div class="phase-strip">
+        ${PHASES.map((p,i)=>{
+          const cls = phaseComplete(i) ? "done" : phaseLocked(i) ? "locked" : "active";
+          return `<div class="phase-chip ${cls}"><div class="pn">Phase ${i+1}</div><div class="pl">${p.label}</div></div>`;
+        }).join("")}
+      </div>
+    </div>`;
+}
+
+function viewPlan(){
+  return `
+    <div class="panel" id="sec-plan">
+      <div class="panel-head"><div><h2>Plan</h2><p>Locked phases unlock automatically the moment the phase before them is fully complete — including any approval it needs.</p></div></div>
+      ${PHASES.map((p,i)=>{
+        const locked = phaseLocked(i);
+        const complete = phaseComplete(i);
+        const doneN = p.steps.filter(s=>s.done).length;
+        return `<div class="phase-block ${locked?'locked':''}">
+          <div class="phase-block-head">
+            <h4>${locked?"🔒 ":complete?"✓ ":""}Phase ${i+1} — ${p.label}</h4>
+            <span class="pct">${doneN}/${p.steps.length}</span>
+          </div>
+          ${p.steps.map(s=>`
+            <div class="step-row">
+              <div class="step-check ${s.done?'done':locked?'':'pending'}">${s.done?'✓':''}</div>
+              <div class="step-name">${s.label}</div>
+              <span class="step-tag ${s.done?'done-tag':s.type}">${s.done? (s.type==='approval'?'approved':s.type==='client-form'?'submitted':'done') : s.type.replace('-',' ')}</span>
+            </div>`).join("")}
+        </div>`;
+      }).join("")}
+    </div>`;
+}
+
+function viewTodo(){
+  const items = allSteps().filter(s=> !s.done && s.type!=="task" && !phaseLockedForStep(s));
+  const gateItems = allSteps().filter(s=> !s.done && s.type==="approval" && !phaseLockedForStep(s) && PHASES[phaseIndexOfStep(s)].steps.filter(x=>x.type!=="approval").every(x=>x.done));
+  return `
+    <div class="panel" id="sec-todo">
+      <div class="panel-head"><div><h2>Your to-do list</h2><p>Only the items that need action from Meridian Realty — everything else GuidexCRM already has covered.</p></div></div>
+      ${items.length===0 ? `<div class="all-clear">✓ You're all caught up — nothing needs your attention right now.</div>` :
+        items.map(s=>{
+          const isGateReady = gateItems.includes(s);
+          const label = s.type==="client-form" ? "Fill out form" : (isGateReady ? "Review & approve" : "Waiting on other steps");
+          const goto = s.type==="client-form" ? "forms" : "plan";
+          return `<div class="todo-item">
+            <div class="ti-body"><div class="ti-title">${s.label}</div><div class="ti-sub">${s.type==='client-form'?'Short form':'Milestone approval'} · Phase "${PHASES[phaseIndexOfStep(s)].label}"</div></div>
+            <button class="btn-go" data-goto="${goto}" ${s.type==='approval' && !isGateReady ? 'disabled style="opacity:.4;cursor:not-allowed;"':''}>${label} →</button>
+          </div>`;
+        }).join("")}
+    </div>`;
+}
+
+function viewForms(){
+  const daDone = PHASES[1].steps.find(s=>s.id==="2.3").done;
+  const bdDone = PHASES[2].steps.find(s=>s.id==="3.3").done;
+  const bdLocked = phaseLocked(2);
+  return `
+    <div class="panel" id="sec-forms">
+      <div class="panel-head"><div><h2>Forms</h2><p>Two short intake forms — both validate before they'll submit.</p></div></div>
+
+      <div class="form-card ${daDone?'complete':''}" id="formCard-dataAccess">
+        <h4>Data access authorization</h4>
+        <div class="fsub">Needed before GuidexCRM can pull records from your current system for migration.</div>
+        ${daDone ? `<div class="form-done-badge">✓ Submitted — thank you</div>` : `
+        <div class="frow">
+          <label>Authorized contact name</label>
+          <input type="text" id="da_contact" placeholder="e.g. Lena Marsh">
+          <div class="errmsg" id="err_da_contact">Please enter a name.</div>
+        </div>
+        <div class="frow">
+          <label>Contact email</label>
+          <input type="email" id="da_email" placeholder="name@meridianrealty.com">
+          <div class="errmsg" id="err_da_email">Please enter a valid email.</div>
+        </div>
+        <div class="frow">
+          <label>Current system you're migrating from</label>
+          <select id="da_crm">
+            <option value="">Select one…</option>
+            <option>Spreadsheets / Google Sheets</option>
+            <option>Follow Up Boss</option>
+            <option>Chime</option>
+            <option>Another CRM</option>
+          </select>
+          <div class="errmsg" id="err_da_crm">Please choose one.</div>
+        </div>
+        <div class="frow">
+          <label style="display:flex; align-items:center; gap:8px; font-weight:400;">
+            <input type="checkbox" id="da_consent" style="width:auto;"> I authorize GuidexCRM to access and migrate this data
+          </label>
+          <div class="errmsg" id="err_da_consent">Consent is required to continue.</div>
+        </div>
+        <button class="btn-submit" id="submitDataAccess">Submit authorization</button>
+        `}
+      </div>
+
+      <div class="form-card ${bdDone?'complete':''} ${bdLocked?'locked':''}" id="formCard-brandDetails">
+        <h4>Brand &amp; territory details ${bdLocked?'<span style="font-size:11px;color:var(--ink-soft);">(unlocks after Data Migration)</span>':''}</h4>
+        <div class="fsub">Used to configure your pipeline regions and portal branding.</div>
+        ${bdDone ? `<div class="form-done-badge">✓ Submitted — thank you</div>` : bdLocked ? `<div style="font-size:12.5px;color:var(--ink-soft);">Complete Data Migration to unlock this form.</div>` : `
+        <div class="frow">
+          <label>Primary brand color</label>
+          <input type="color" id="bd_color" value="#a87f28" style="width:70px; padding:4px; height:38px;">
+        </div>
+        <div class="frow">
+          <label>Territories served</label>
+          <div class="checks" id="bd_territories">
+            ${["North Dallas","Fort Worth","Collin County","Denton County"].map(t=>`<span class="chkpill" data-t="${t}">${t}</span>`).join("")}
+          </div>
+        </div>
+        <div class="frow">
+          <label>Preferred portal subdomain</label>
+          <input type="text" id="bd_domain" placeholder="e.g. meridian">
+          <div class="errmsg" id="err_bd_domain">Please enter a subdomain.</div>
+        </div>
+        <button class="btn-submit" id="submitBrandDetails">Submit details</button>
+        `}
+      </div>
+    </div>`;
+}
+
+function viewDocuments(){
+  return `
+    <div class="panel" id="sec-documents">
+      <div class="panel-head"><div><h2>Documents</h2><p>Generated fresh in your browser when you click download — real files, fictional contents.</p></div></div>
+      <div class="doc-grid">
+        ${DOCS.map(d=>{
+          const unlocked = docUnlocked(d);
+          return `<div class="doc-card ${unlocked?'':'locked'}">
+            <div class="dic">${d.ic}</div><div class="dn">${d.name}</div><div class="dd">${d.desc}</div>
+            <button class="btn-dl" data-doc="${d.id}" ${unlocked?'':'disabled'}>${unlocked?'⬇ Download':'🔒 Locked'}</button>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Training sessions</h2><p>Add either session to your calendar — real .ics files.</p></div></div>
+      <div class="doc-grid">
+        ${PHASES[3].steps.filter(s=>s.meeting).map(s=>`
+          <div class="doc-card">
+            <div class="dic">📅</div><div class="dn">${s.meeting.title}</div><div class="dd">${new Date(s.meeting.date).toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'})}</div>
+            <button class="btn-cal" data-meeting="${s.id}">📅 Add to calendar</button>
+          </div>`).join("")}
+      </div>
+    </div>`;
+}
+
+function viewBilling(){
+  const paidTotal = INVOICES.filter(i=>i.paid).reduce((s,i)=>s+i.amount,0);
+  const totalContract = INVOICES.reduce((s,i)=>s+i.amount,0);
+  return `
+    <div class="panel" id="sec-billing">
+      <div class="panel-head"><div><h2>Billing</h2><p>Milestone-gated: an invoice only becomes payable once its phase is complete. ${fmt(paidTotal)} of ${fmt(totalContract)} paid so far.</p></div></div>
+      ${INVOICES.map(inv=>{
+        const unlocked = inv.unlockPhase===-1 || phaseComplete(inv.unlockPhase);
+        const status = inv.paid ? "paid" : unlocked ? "due" : "locked";
+        return `<div class="invoice">
+          <div class="in-l"><div class="it">${inv.label}</div><div class="is">${inv.unlockPhase===-1?'Due at signing':unlocked?'Ready to pay':'Unlocks when "'+PHASES[inv.unlockPhase].label+'" is complete'}</div></div>
+          <div class="in-r">
+            <span class="status-pill ${status}">${status}</span>
+            <span class="amt">${fmt(inv.amount)}</span>
+            ${status==="due" ? `<button class="btn-pay" data-inv="${inv.id}">Pay now</button>` : ""}
+          </div>
+        </div>`;
+      }).join("")}
+    </div>`;
+}
+
+function fmt(n){ return "$"+n.toLocaleString("en-US"); }
+
+/* =========================================================
+   MAIN RENDER
+   ========================================================= */
+function render(){
+  refreshAutoTasks();
+  renderTabs();
+  const main = document.getElementById("main");
+  if(state.tab==="overview") main.innerHTML = viewOverview();
+  else if(state.tab==="plan") main.innerHTML = viewPlan();
+  else if(state.tab==="todo") main.innerHTML = viewTodo();
+  else if(state.tab==="forms") main.innerHTML = viewForms();
+  else if(state.tab==="documents") main.innerHTML = viewDocuments();
+  else if(state.tab==="billing") main.innerHTML = viewBilling();
+  wire();
+}
+
+/* =========================================================
+   WIRING
+   ========================================================= */
+function wire(){
+  document.querySelectorAll(".btn-go").forEach(b=> b.addEventListener("click", ()=>{
+    if(b.disabled) return;
+    state.tab = b.dataset.goto; render();
+  }));
+
+  // approvals in Plan view
+  document.querySelectorAll(".step-row").forEach(()=>{}); // rows are static; approvals are actioned from To-Do via plan nav + explicit approve buttons below
+  // add explicit approve buttons to gate steps that are actionable
+  document.querySelectorAll(".phase-block").forEach((block,pi)=>{
+    const phase = PHASES[pi];
+    if(phaseLocked(pi)) return;
+    phase.steps.forEach(s=>{
+      if(s.type==="approval" && !s.done){
+        const ready = phase.steps.filter(x=>x.type!=="approval").every(x=>x.done);
+        const rows = block.querySelectorAll(".step-row");
+        rows.forEach(r=>{
+          if(r.querySelector(".step-name").textContent===s.label){
+            const btn = document.createElement("button");
+            btn.className="btn-go"; btn.textContent = ready? "Approve →" : "Waiting…";
+            btn.disabled = !ready;
+            if(!ready) btn.style.cssText="opacity:.4;cursor:not-allowed;";
+            btn.addEventListener("click", ()=>{ s.done=true; render(); });
+            r.appendChild(btn);
+          }
+        });
+      }
+    });
+  });
+
+  // data access form
+  const submitDA = document.getElementById("submitDataAccess");
+  if(submitDA) submitDA.addEventListener("click", ()=>{
+    let ok=true;
+    const contact=document.getElementById("da_contact"), email=document.getElementById("da_email"),
+          crm=document.getElementById("da_crm"), consent=document.getElementById("da_consent");
+    const setErr=(el,errId,cond)=>{ document.getElementById(errId).classList.toggle("show",cond); el.classList.toggle("err",cond); if(cond) ok=false; };
+    setErr(contact,"err_da_contact", !contact.value.trim());
+    setErr(email,"err_da_email", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value));
+    setErr(crm,"err_da_crm", !crm.value);
+    setErr(consent,"err_da_consent", !consent.checked);
+    if(!ok) return;
+    PHASES[1].steps.find(s=>s.id==="2.3").done = true;
+    render();
+  });
+
+  // brand details form
+  const bdTerr = document.getElementById("bd_territories");
+  if(bdTerr) bdTerr.querySelectorAll(".chkpill").forEach(p=>{
+    p.addEventListener("click", ()=>{
+      p.classList.toggle("on");
+      const t = p.dataset.t;
+      if(forms.brandDetails.territories.has(t)) forms.brandDetails.territories.delete(t); else forms.brandDetails.territories.add(t);
+    });
+  });
+  const submitBD = document.getElementById("submitBrandDetails");
+  if(submitBD) submitBD.addEventListener("click", ()=>{
+    const domain = document.getElementById("bd_domain");
+    const errEl = document.getElementById("err_bd_domain");
+    const bad = !domain.value.trim();
+    errEl.classList.toggle("show", bad); domain.classList.toggle("err", bad);
+    if(bad) return;
+    PHASES[2].steps.find(s=>s.id==="3.3").done = true;
+    render();
+  });
+
+  // document downloads
+  document.querySelectorAll(".btn-dl").forEach(b=> b.addEventListener("click", ()=>{
+    const doc = DOCS.find(d=>d.id===b.dataset.doc);
+    downloadText(doc.name.replace(/\s+/g,"_")+".txt", buildDocContent(doc));
+  }));
+
+  // calendar downloads
+  document.querySelectorAll(".btn-cal").forEach(b=> b.addEventListener("click", ()=>{
+    const step = PHASES[3].steps.find(s=>s.id===b.dataset.meeting);
+    downloadText(step.meeting.title.replace(/\s+/g,"_")+".ics", buildIcs(step.meeting));
+  }));
+
+  // billing
+  document.querySelectorAll(".btn-pay").forEach(b=> b.addEventListener("click", ()=>{
+    const inv = INVOICES.find(i=>i.id===b.dataset.inv);
+    inv.paid = true; render();
+  }));
+}
+
+function downloadText(filename, content){
+  const blob = new Blob([content], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+function buildDocContent(doc){
+  return `GuidexCRM Solutions — Sample Deliverable
+${doc.name}
+Client: Meridian Realty Group (fictional)
+Phase: ${PHASES[doc.phase].label}
+Generated: ${new Date().toLocaleString()}
+
+${doc.desc}.
+
+This is a sample portfolio document. All content is fictional and generated
+on the spot for demonstration — nothing here reflects a real client engagement.
+`;
+}
+function buildIcs(meeting){
+  const dt = new Date(meeting.date);
+  const pad = n=> String(n).padStart(2,"0");
+  const stamp = d => `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+  const end = new Date(dt.getTime()+60*60*1000);
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//GuidexCRM Sample//EN
+BEGIN:VEVENT
+UID:${Date.now()}@guidexcrm-sample
+DTSTAMP:${stamp(new Date())}
+DTSTART:${stamp(dt)}
+DTEND:${stamp(end)}
+SUMMARY:${meeting.title}
+DESCRIPTION:Sample training session — GuidexCRM onboarding portal demo.
+END:VEVENT
+END:VCALENDAR`;
+}
+
+render();
+
+/* =========================================================
+   GUIDED TOUR
+   ========================================================= */
+const tourSteps = [
+  {before:()=>{state.tab="overview"; render();}, sel:"#sec-overview .ring-wrap", title:"The progress ring", body:"This percentage is real — it's steps-done divided by steps-total, recalculated every time something changes."},
+  {before:()=>{state.tab="plan"; render();}, sel:"#sec-plan", title:"Phases gate each other", body:"Phase 3 is locked because Phase 2 isn't finished yet. Fill in the Data Migration form and approve its gate to watch it unlock."},
+  {before:()=>{state.tab="forms"; render();}, sel:"#sec-forms", title:"Real form validation", body:"Try submitting the Data Access form empty — it'll flag exactly what's missing before it accepts anything."},
+  {before:()=>{state.tab="documents"; render();}, sel:"#sec-documents", title:"Downloads that actually work", body:"These generate real files on the spot — a text deliverable and a valid .ics calendar invite, no server involved."},
+  {before:()=>{state.tab="billing"; render();}, sel:"#sec-billing", title:"Billing follows the plan", body:"The second invoice stays locked until the CRM Build phase is fully complete — move the plan forward and it becomes payable."},
+];
+let tourIndex=0;
+const overlay=document.getElementById("tour-overlay"), card=document.getElementById("tour-card");
+function positionCard(target){
+  const r = target.getBoundingClientRect();
+  let top = r.bottom+14, left = r.left;
+  if(top+180>window.innerHeight) top = Math.max(14, r.top-190);
+  if(left+300>window.innerWidth) left = window.innerWidth-300;
+  card.style.top = top+"px"; card.style.left = Math.max(14,left)+"px";
+}
+function showStep(i){
+  document.querySelectorAll(".tour-highlight").forEach(el=>el.classList.remove("tour-highlight"));
+  const step = tourSteps[i]; step.before();
+  const target = document.querySelector(step.sel);
+  if(!target){ endTour(); return; }
+  target.classList.add("tour-highlight");
+  target.scrollIntoView({block:"center", behavior:"smooth"});
+  document.getElementById("tourStepN").textContent = `Step ${i+1} of ${tourSteps.length}`;
+  document.getElementById("tourTitle").textContent = step.title;
+  document.getElementById("tourBody").textContent = step.body;
+  document.getElementById("tourNext").textContent = i===tourSteps.length-1 ? "Done" : "Next →";
+  setTimeout(()=> positionCard(target), 260);
+  overlay.style.display="block"; card.style.display="block";
+}
+function endTour(){
+  document.querySelectorAll(".tour-highlight").forEach(el=>el.classList.remove("tour-highlight"));
+  overlay.style.display="none"; card.style.display="none"; tourIndex=0;
+}
+document.getElementById("startTour").addEventListener("click", ()=>{ tourIndex=0; showStep(0); });
+document.getElementById("tourSkip").addEventListener("click", endTour);
+document.getElementById("tourNext").addEventListener("click", ()=>{ tourIndex++; if(tourIndex>=tourSteps.length) endTour(); else showStep(tourIndex); });
+overlay.addEventListener("click", endTour);
+</script>
+</body>
+</html>
